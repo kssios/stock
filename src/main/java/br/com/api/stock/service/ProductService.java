@@ -9,6 +9,7 @@ import br.com.api.stock.entity.Product;
 import br.com.api.stock.exception.InvalidProductCode;
 import br.com.api.stock.exception.ProductNotFoundException;
 import br.com.api.stock.repository.ProductRepository;
+import br.com.api.stock.service.converter.ProductConverter;
 import liquibase.repackaged.org.apache.commons.lang3.StringUtils;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -21,14 +22,19 @@ public class ProductService {
 
     @NonNull
     private final ProductRepository productRepository;
+    @NonNull
+    private final ProductConverter productConverter;
 
     public List<Product> findAll() {
         return productRepository.findAll();
     }
 
     public ProductDTO findByProductCode(String productCode) {
-        return findOptionalById(productCode).map(this::entityToDTO)
-                .orElseThrow(ProductNotFoundException::new);
+        Optional<Product> product = findOptionalById(productCode);
+        if(product.isEmpty()) {
+            throw new ProductNotFoundException();
+        }
+        return productConverter.entityToDTO(product.get());
     }
 
     public Optional<Product> findOptionalById(String productCode) {
@@ -36,30 +42,9 @@ public class ProductService {
     }
 
     public ProductDTO save(ProductDTO productDTO) {
-        return entityToDTO(productRepository.save(dtoToEntity(productDTO)));
-    }
-
-    private Product dtoToEntity(final ProductDTO productDTO) {
         if (StringUtils.isEmpty(productDTO.getProductCode())) {
             throw new InvalidProductCode();
         }
-        return Product.builder()
-                .productCode(productDTO.getProductCode())
-                .description(productDTO.getDescription())
-                .productType(productDTO.getProductType())
-                .costPrice(productDTO.getCostPrice())
-                .quantity(productDTO.getQuantity())
-                .build();
+        return productConverter.entityToDTO(productRepository.save(productConverter.dtoToEntity(productDTO)));
     }
-
-    private ProductDTO entityToDTO(final Product product) {
-        return ProductDTO.builder()
-                .productCode(product.getProductCode())
-                .description(product.getDescription())
-                .productType(product.getProductType())
-                .costPrice(product.getCostPrice())
-                .quantity(product.getQuantity())
-                .build();
-    }
-
 }
