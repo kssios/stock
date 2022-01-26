@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+  <changeSet id="1" author="cassio">
+    <comment>Criacao da tabela MOVEMENT</comment>
+
+    <createTable schemaName="api" tableName="movement">
+      <column autoIncrement="true" type="BIGINT" name="id">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="product_code" type="varchar(20)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="operation_type" type="tinyint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="price" type="decimal(15, 2)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="event_date" type="datetime">
+        <constraints nullable="false"/>
+      </column>
+      <column name="quantity" type="decimal(15, 2)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+    <rollback>
+      <dropTable tableName="movement"/>
+    </rollback>
+  </changeSet>
+
+  <changeSet id="2" author="cassio" runInTransaction="true">
+    <comment>Criacao da chave estrangeira FK_PRODUCT_ID</comment>
+    <addForeignKeyConstraint constraintName="fk_product_id"
+      referencedTableName="product" referencedColumnNames="product_code" referencedTableSchemaName="api"
+      baseTableName="movement" baseColumnNames="product_code" baseTableSchemaName="api" />
+    <rollback>
+      <dropForeignKeyConstraint baseTableName="movement" constraintName="fk_product_id" />
+    </rollback>
+  </changeSet>
+
+</databaseChangeLog>

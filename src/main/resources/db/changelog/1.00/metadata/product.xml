@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+  <changeSet id="1" author="cassio">
+    <comment>Criacao da tabela PRODUCT</comment>
+
+    <createTable schemaName="api" tableName="product">
+      <column name="product_code" type="varchar(20)">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="description" type="varchar(100)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="product_type" type="varchar(100)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="cost_price" type="decimal(15, 2)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="quantity" type="decimal(15, 2)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <rollback>
+      <dropTable tableName="product"/>
+    </rollback>
+  </changeSet>
+
+</databaseChangeLog>
