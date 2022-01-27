@@ -3,7 +3,7 @@
 
 ## Requisitos do projeto
 
-- Gradle 6.6
+- Gradle 7.3.3
 - OpenJDK 11.0.5
 - Docker
 
@@ -46,18 +46,19 @@ gradle clean bootJar
 
 ### Segurança
 Usuários disponíveis:
-login|password
-user  user123
-admin admin123
+
+login: user | password: user123
+
+login: admin | password: admin123
 
 ## Endpoints
 
-- [Criar Produto](documentation/post-product.md):  `POST /products/new`
+- [Criar Produto]:  `POST /products/new`
 
-- [Consultar Produto](documentation/get-product.md):  `GET /products/:productCode`
+- [Consultar Produto]:  `GET /products/:productCode`
 
-- [Listar Produtos](documentation/get-product.md):  `GET /products`
+- [Listar Produtos]:  `GET /products`
 
-- [Criar Movimentação de Estoque](documentation/post-movements.md):  `POST /movements`
+- [Criar Movimentação de Estoque]:  `POST /movements`
 
   

@@ -2,6 +2,7 @@ package br.com.api.stock.service;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import br.com.api.stock.dto.ProductDTO;
@@ -46,5 +47,9 @@ public class ProductService {
             throw new InvalidProductCode();
         }
         return productConverter.entityToDTO(productRepository.save(productConverter.dtoToEntity(productDTO)));
+    }
+
+    public void deleteByProductCode(String productCode) {
+        productRepository.deleteById(productCode);
     }
 }

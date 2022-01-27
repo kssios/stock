@@ -2,14 +2,10 @@ package br.com.api.stock.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,5 +55,10 @@ public class ProductController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ProductDTO update(@RequestBody final ProductDTO productDTO) {
         return productService.save(productDTO);
+    }
+
+    @DeleteMapping("/{productCode}")
+    public void deleteProduct(@PathVariable String productCode) {
+        productService.deleteByProductCode(productCode);
     }
 }
